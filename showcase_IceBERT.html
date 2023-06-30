@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<!--
+	Phantom by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Final Project</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<div class="inner">
+
+							<!-- Logo -->
+								<a href="index.html" class="logo">
+									<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">Isak Grimsson</span>
+								</a>
+
+							<!-- Nav -->
+								<nav>
+									<ul>
+										<li><a href="#menu">Menu</a></li>
+									</ul>
+								</nav>
+
+						</div>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<h2>Menu</h2>
+						<ul>
+							<li><a href="index.html">Home</a></li>
+							<li><a href="showcase_IceBERT.html">ML & NLP</a></li>
+							<li><a href="showcase_string_compression.html">Python</a></li>
+							<li><a href="showcase_Wordle">Java</a></li>
+							<li><a href="showcase_BinaryMath.html">JavaScript</a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+							<h1>Fine-tuning a BERT model to detect declension errors in Icelandic Text</h1>
+							<p>This was my final project of my bachelor degree, I'm proud to share that I recieved a mark of 94 for this project, 
+								as well out-performing ChatGPT, which makes it state of that art performance for this specific task,
+								the final model is available on
+								 <a href="https://huggingface.co/IsakG/declension_error_detection">huggingface</a>, 
+								 and for those that are interested, the full paper is available 
+								 <a href="files/FinalPaper.pdf" download="Isak Grimsson - Fine tuning a BERT model for declension detection.pdf">here</a>, 
+								 below is a poster presentation of the project followed by a short writing about my favourite part of the project, synthetic dataset creation.</p>
+							<span class="image main"><img src="images/IceBERT-1.png" alt="" /></span>
+							<h1>A quick preamble about declension</h1>
+							<p>
+								In order to understand how I constructed my data set, we need to talk briefly about declension, bear with me and I'll try 
+								my best to avoid going into the specifics of Icelandic grammar. For example Imagine that the word 'horse' has four
+								forms (Horse, Horsey, Horser and Horsest), you would pick the correct form based on the context of the sentence, for example
+								"I walk TO the horse","I walk AROUND the horse","I walk FROM the horser" or "I walk ON the horsest", the rules which governs
+								the form a word takes are irregular, and choosing the right form can be thought of as a pattern recognition problem.
+							</p>
+							<h2>The important declension takeaway for this project</h2>
+							<p>
+								If we have a sentence where all the words are in their correct form (I walk to the horse), if you subsitute a single word in that
+								sentence with one of it's other forms (horsey, horser, horsest) that sentence will be incorrect.
+							</p>
+							<h1>Synthetic dataset creation</h1>
+							<p>In order to retrain the model to perform binary classification (sentences are either correct or incorrect),
+								I needed a dataset of incorrect and correct sentences, a large dataset aswell, but a large dataset didn't exist.
+								What did exist was a collection of proofread texts, that I scraped and filtered to create a new dataset
+								of 35000 correct sentences and 1000 incorrect sentences. I combined this dataset with a 'Declension database'
+								(a database of Icelandic words and their different forms). I put the 1000 incorrect sentences aside for testing
+								(as well as 3500 of the correct sentences) and I used the remaining correct sentences to generate incorrect sentences
+								as outlined below.
+							</p>
+							<ul>
+								<li>For each correct sentence</li>
+								<ul>
+									<li>For each word in that sentence, search the declension database</li>
+									<ul>
+										<li>For each different form that exists, create a copy of the sentence with the word swapped out for its alternative form</li>
+									</ul>
+								</ul>
+							</ul>
+							<p>
+								Using this method, I managed to create multiple incorrect sentences for every correct sentence in my dataset,
+								which resulted in a dataset large enough to train a state of the art declension error detection model.
+							</p>
+						</div>
+					</div>
+				<!-- Footer -->
+				<footer id="footer">
+					<div class="inner">
+						<section>
+							<h2>Get in touch via email</h2>
+							<h3>isakgrimsson@gmail.com</h3>
+						</section>
+						<section>
+							<h2>Message me on LinkedIn</h2>
+							<a href="index.html" class="logo"><img src="images/linkedin-in.svg" alt="LinkedIn link" width="25" height="25"></a>
+						</section>
+					</div>
+				</footer>
+
+			</div>
+
+			
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
